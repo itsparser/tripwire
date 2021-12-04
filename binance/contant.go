@@ -47,9 +47,6 @@ type FuturesTransferType int
 
 // Endpoints
 const (
-	BaseAPIMainURL    = "https://api.binance.com"
-	BaseAPITestnetURL = "https://testnet.binance.vision"
-
 	SideTypeBuy  SideType = "BUY"
 	SideTypeSell SideType = "SELL"
 

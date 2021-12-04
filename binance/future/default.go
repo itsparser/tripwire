@@ -5,22 +5,23 @@ import (
 )
 
 type OrderRequestOption struct {
-	symbol string
-	side   binance.SideType
-	//positionSide     *PositionSideType
-	orderType   binance.OrderType
-	timeInForce *binance.TimeInForceType
-	quantity    string
-	reduceOnly  *bool
-	price       *string
-	newClientOrderID *string
-	stopPrice        *string
-	//workingType      *WorkingType
-	activationPrice  *string
-	callbackRate     *string
-	priceProtect     *bool
-	newOrderRespType binance.NewOrderRespType
-	closePosition    *bool
+	Symbol           string                   `json:"symbol"`
+	Side             binance.SideType         `json:"side"`
+	OrderType        binance.OrderType        `json:"type"`
+	Quantity         string                   `json:"quantity"`
+	NewOrderRespType binance.NewOrderRespType `json:"newOrderRespType"`
+
+	TimeInForce      *binance.TimeInForceType `json:"timeInForce"`
+	ReduceOnly       *bool                    `json:"reduceOnly"`
+	Price            *string                  `json:"price"`
+	NewClientOrderID *string                  `json:"newClientOrderId"`
+	StopPrice        *string                  `json:"stopPrice"`
+	PriceProtect     *bool                    `json:"priceProtect"`
+	ActivationPrice  *string                  `json:"activationPrice"`
+	CallbackRate     *string                  `json:"callbackRate"`
+	ClosePosition    *bool                    `json:"closePosition"`
+	//positionSide     *PositionSideType `json:"positionSide"`
+	//workingType      *WorkingType `json:"workingType"`
 }
 
 // Order define order info
@@ -42,11 +43,11 @@ type Order struct {
 	AvgPrice         string                  `json:"avgPrice"`
 	OrigType         string                  `json:"origType"`
 	PriceProtect     bool                    `json:"priceProtect"`
-	ClosePosition bool                    `json:"closePosition"`
-	Status        binance.OrderStatusType `json:"status"`
-	TimeInForce   binance.TimeInForceType `json:"timeInForce"`
-	Type          binance.OrderType       `json:"type"`
-	Side          binance.SideType        `json:"side"`
+	ClosePosition    bool                    `json:"closePosition"`
+	Status           binance.OrderStatusType `json:"status"`
+	TimeInForce      binance.TimeInForceType `json:"timeInForce"`
+	Type             binance.OrderType       `json:"type"`
+	Side             binance.SideType        `json:"side"`
 	//WorkingType      WorkingType      `json:"workingType"`
 	//PositionSide     PositionSideType `json:"positionSide"`
 }

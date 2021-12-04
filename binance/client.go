@@ -1,11 +1,12 @@
 package binance
 
 import (
+	"github.com/workfoxes/tripwire/internal/utils"
+	"io"
 	"log"
 	"net/http"
 	"os"
 )
-
 
 type doFunc func(req *http.Request) (*http.Response, error)
 
@@ -42,4 +43,28 @@ func getAPIEndpoint() string {
 		return BaseAPITestnetURL
 	}
 	return BaseAPIMainURL
+}
+
+func (client Client) BinanceRequest(method, url string, body interface{}) (*http.Response, error) {
+	response, err := utils.WebRequest(method, url, nil, body)
+	if err != nil {
+		return nil, err
+	}
+	_response, err := utils.GetResponse(response)
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(response.Body)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequest(method, url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+	return http.DefaultClient.Do(req)
 }

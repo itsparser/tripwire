@@ -44,3 +44,7 @@ func getAPIEndpoint() string {
 	return binance.BaseAPIMainURL
 }
 
+// GetFullURL this function will return the full url of with the base url
+func (client *Client) GetFullURL(endpoint string) string {
+	return client.BaseURL + endpoint
+}

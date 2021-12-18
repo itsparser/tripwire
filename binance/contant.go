@@ -1,5 +1,8 @@
 package binance
 
+// AuthType define the type of authentication used to get access to broker
+type AuthType int
+
 // SideType define side type of order
 type SideType string
 
@@ -119,7 +122,13 @@ const (
 	SideEffectTypeMarginBuy    SideEffectType = "MARGIN_BUY"
 	SideEffectTypeAutoRepay    SideEffectType = "AUTO_REPAY"
 
-	timestampKey  = "timestamp"
-	signatureKey  = "signature"
+	Timestampkey  = "timestamp"
+	SignatureKey  = "signature"
 	recvWindowKey = "recvWindow"
+)
+
+const (
+	AuthTypeNone AuthType = iota
+	AuthTypeAPIKey
+	AuthTypeSigned
 )

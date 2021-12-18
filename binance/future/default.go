@@ -35,6 +35,10 @@ type Order struct {
 	ExecutedQuantity string                  `json:"executedQty"`
 	CumQuantity      string                  `json:"cumQty"`
 	CumQuote         string                  `json:"cumQuote"`
+	Status           binance.OrderStatusType `json:"status"`
+	TimeInForce      binance.TimeInForceType `json:"timeInForce"`
+	Type             binance.OrderType       `json:"type"`
+	Side             binance.SideType        `json:"side"`
 	StopPrice        string                  `json:"stopPrice"`
 	Time             int64                   `json:"time"`
 	UpdateTime       int64                   `json:"updateTime"`
@@ -44,10 +48,12 @@ type Order struct {
 	OrigType         string                  `json:"origType"`
 	PriceProtect     bool                    `json:"priceProtect"`
 	ClosePosition    bool                    `json:"closePosition"`
-	Status           binance.OrderStatusType `json:"status"`
-	TimeInForce      binance.TimeInForceType `json:"timeInForce"`
-	Type             binance.OrderType       `json:"type"`
-	Side             binance.SideType        `json:"side"`
-	//WorkingType      WorkingType      `json:"workingType"`
-	//PositionSide     PositionSideType `json:"positionSide"`
+	//WorkingType      binance.WorkingType      `json:"workingType"`
+	//PositionSide     binance.PositionSideType `json:"positionSide"`
+}
+
+type CreateOrderResponse struct {
+	Order
+	RateLimitOrder10s string `json:"rateLimitOrder10s,omitempty"`
+	RateLimitOrder1m  string `json:"rateLimitOrder1m,omitempty"`
 }

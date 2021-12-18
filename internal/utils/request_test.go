@@ -132,25 +132,17 @@ func TestBodyConstructor(t *testing.T) {
 }
 
 func TestWebRequest(t *testing.T) {
-	type args struct {
-		url     string
-		method  string
-		headers map[string]string
-		body    interface{}
-	}
 	tests := []struct {
 		name    string
-		args    args
+		args    Request
 		want    string
 		wantErr bool
 	}{
 		{
 			name: "TestWebRequest",
-			args: args{
-				url:     "https://httpbin.org/get",
-				method:  "GET",
-				headers: nil,
-				body:    nil,
+			args: Request{
+				URL:    "https://httpbin.org/get",
+				Method: "GET",
 			},
 			want:    "{\n          \"args\": {}, \n          \"headers\": {\n            \"Accept-Encoding\": \"gzip\", \n            \"Content-Type\": \"application/json\", \n            \"Host\": \"httpbin.org\", \n            \"User-Agent\": \"Go-http-client/2.0\", \n            \"X-Amzn-Trace-Id\": \"Root=1-61ab0318-5bf3fdee23e546927a6948bd\"\n          }, \n          \"origin\": \"59.91.153.204\", \n          \"url\": \"https://httpbin.org/get\"\n        }",
 			wantErr: false,
@@ -197,21 +189,17 @@ func TestWebRequest(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := WebRequest(tt.args.url, tt.args.method, tt.args.headers, tt.args.body)
+			got, err := WebRequest(tt.args)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("WebRequest() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			var _i_got = make(map[string]interface{})
-			//var _i_want = make(map[string]interface{})
-			if err := json.Unmarshal(got, &_i_got); err != nil {
+			var iGot = make(map[string]interface{})
+			if err := json.NewDecoder(got.Body).Decode(&iGot); err != nil {
 				panic(err)
 			}
-			//if err := json.Unmarshal([]byte(tt.want), &_i_want); err != nil {
-			//	panic(err)
-			//}
-			if !reflect.DeepEqual(_i_got["url"], tt.args.url) {
-				t.Errorf("WebRequest() got = %v, want %v", _i_got["url"], tt.args.url)
+			if !reflect.DeepEqual(iGot["url"], tt.args.URL) {
+				t.Errorf("WebRequest() got = %v, want %v", iGot["url"], tt.args.URL)
 			}
 		})
 	}

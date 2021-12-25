@@ -14,6 +14,7 @@ import (
 type Request struct {
 	URL, Method string
 	Headers     http.Header
+	RawQuery    string // encoded query values, without '?'
 	Body        interface{}
 	Value       url.Values
 	Cookies     []http.Cookie
@@ -54,6 +55,9 @@ func (r *Request) Do() (*http.Response, error) {
 		for k, v := range r.Value {
 			_query.Add(k, v[0])
 		}
+	}
+	if r.RawQuery != "" {
+		request.URL.RawQuery = r.RawQuery
 	}
 	if r.Cookies != nil && len(r.Cookies) > 0 {
 		for _, c := range r.Cookies {

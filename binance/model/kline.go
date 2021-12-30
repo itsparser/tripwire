@@ -59,3 +59,31 @@ type Kpi struct {
 	Quote            string `json:"Q"`
 	Ignore           string `json:"B"`
 }
+
+// Kline represents single Kline information.
+type Kline struct {
+	Interval                 string  `json:"i"`
+	FirstTradeID             int64   `json:"f"`
+	LastTradeID              int64   `json:"L"`
+	Final                    bool    `json:"x"`
+	OpenTime                 float64 `json:"t"`
+	CloseTime                float64 `json:"T"`
+	Open                     string  `json:"o"`
+	High                     string  `json:"h"`
+	Low                      string  `json:"l"`
+	Close                    string  `json:"c"`
+	Volume                   string  `json:"v"`
+	NumberOfTrades           int     `json:"n"`
+	QuoteAssetVolume         string  `json:"q"`
+	TakerBuyBaseAssetVolume  string  `json:"V"`
+	TakerBuyQuoteAssetVolume string  `json:"Q"`
+}
+
+type KlineEvent struct {
+	Event
+	Interval     string
+	FirstTradeID int64
+	LastTradeID  int64
+	Final        bool
+	Kline        `json:"k"`
+}

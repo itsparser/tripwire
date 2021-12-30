@@ -57,6 +57,24 @@ func (client *Client) DepthWebsocket(symbol string) (chan *bmodel.DepthEvent, er
 	return dech, nil
 }
 
+func (client *Client) KlineWebsocket(symbol, interval string) (chan *bmodel.KlineEvent, error) {
+	url := fmt.Sprintf("%s/ws/%s@kline_%s", BaseWebsocketURL, strings.ToLower(symbol), strings.ToLower(interval))
+	dech := make(chan *bmodel.KlineEvent)
+	OnMessage := func(_byte []byte) {
+		var res bmodel.KlineEvent
+		err := json.Unmarshal(_byte, &res)
+		if err != nil {
+			fmt.Println("error: ", err)
+		}
+		dech <- &res
+	}
+	_dialer := butils.Dialer{OnMessage: OnMessage}
+	if err := _dialer.Dial(url, ""); err != nil {
+		client.Error("err - ", err)
+	}
+	return dech, nil
+}
+
 //
 //func (as *apiService) KlineWebsocket(kwr KlineWebsocketRequest) (chan *KlineEvent, chan struct{}, error) {
 //	url := fmt.Sprintf("wss://stream.binance.com:9443/ws/%s@kline_%s", strings.ToLower(kwr.Symbol), string(kwr.Interval))
